@@ -13,10 +13,14 @@ import static org.junit.Assert.*;
 
 @Slf4j
 public class ElementsPage {
-    SelenideElement textBoxTab = $x("//span[text()='Text Box']/..");
-    SelenideElement radioButtonTab = $x("//span[text()='Radio Button']/..");
-    SelenideElement buttonTab = $x("//span[text()='Buttons']/..");
-    SelenideElement dynamicPropertiesTab = $x("//span[text()='Dynamic Properties']/..");
+    SelenideElement textBoxTab = $x("//span[text()='Text Box']/ancestor::li[@id='item-0']");
+    SelenideElement titleBoxTab = $x("//h1[text()='Text Box']");
+    SelenideElement radioButtonTab = $x("//span[text()='Radio Button']/ancestor::li[@id='item-2']");
+    SelenideElement titleRadioButton = $x("//h1[text()='Radio Button']");
+    SelenideElement buttonsTab = $x("//span[text()='Buttons']/ancestor::li[@id='item-4']");
+    SelenideElement titleButtons = $x("//h1[text()='Buttons']");
+    SelenideElement dynamicPropertiesTab = $x("//span[text()='Dynamic Properties']/ancestor::li[@id='item-8']");
+    SelenideElement titleDynamicProperties = $x("//h1[text()='Dynamic Properties']");
     SelenideElement nameField = $x("//input[@placeholder='Full Name']");
     SelenideElement nameFieldResult = $("#name");
     SelenideElement emailField = $x("//input[@placeholder='name@example.com']");
@@ -41,11 +45,37 @@ public class ElementsPage {
     SelenideElement redTextBtn = $x("//button[@id='colorChange']");
     SelenideElement invisibleBtn = $x("//button[@id='visibleAfter']");
 
-    @Step("Кликаем на вкладку 'TextBox', заполняем форму и жмем кнопу подтверждения")
-    public ElementsPage openPageClickTextBox(String name, String email) {
+    @Step("Открываем вкладку 'Text Box'")
+    private void openTabTextBox() {
         textBoxTab.shouldBe(visible).click();
-        log.info("Переши во вкладку.");
+        titleBoxTab.shouldBe(visible);
+        log.info("Перешли во вкладку");
+    }
 
+    @Step("Открываем вкладку 'Radio Button'")
+    private void openTabRadioButton() {
+        radioButtonTab.shouldBe(visible).click();
+        titleRadioButton.shouldBe(visible);
+        log.info("Перешли во вкладку");
+    }
+
+    @Step("Открываем вкладку 'Buttons'")
+    private void openTabButtons() {
+        buttonsTab.shouldBe(visible).click();
+        titleButtons.shouldBe(visible);
+        log.info("Перешли во вкладку");
+    }
+
+    @Step("Открываем вкладку 'Dynamic Properties'")
+    private void openTabDynamicProperties() {
+        dynamicPropertiesTab.shouldBe(visible).click();
+        titleDynamicProperties.shouldBe(visible);
+        log.info("Перешли во вкладку");
+    }
+
+    @Step("Кликаем на вкладку 'Text Box',заполняем форму 'Text Box' и жмем кнопу подтверждения")
+    public ElementsPage fillingFormTextBox(String name, String email) {
+        openTabTextBox();
         nameField.shouldBe(visible).sendKeys(name);
         emailField.shouldBe(visible).sendKeys(email);
         currentAddressField.shouldBe(visible).sendKeys(name + name);
@@ -60,16 +90,14 @@ public class ElementsPage {
         assertEquals("Введенное значение адреса прописки отличается", "Current Address :" + name + name, currentAddressResult.shouldBe(visible).getText());
         assertEquals("Введенное значение адреса проживания отличается", "Permananet Address :" + email, permanentAddressResult.shouldBe(visible).getText());
         log.info("Проверили заполненные данные.");
-        sleep(2000);
+        //        sleep(2000); // Можно включить для визуальной демонстации выполенения теста.
         return this;
     }
 
-    @Step("Кликаем на вкладку 'RadioButton',перключаем и проверяем результат RadioButton")
-    public ElementsPage openPageClickElementRadioButton() {
-        radioButtonTab.shouldBe(visible).click();
-        log.info("Переши во вкладку.");
-
-        sleep(1000);
+    @Step("Кликаем на вкладку 'Radio Button',переключаем и проверяем результат 'Radio Button'")
+    public ElementsPage doExerciseRadioButton() {
+        openTabRadioButton();
+        sleep(200);
         radioButtonYesActive.shouldBe(visible).click();
         log.info("Выбираем поле.");
         assertTrue("'Yes' не выбрано", radioButtonYesStatus.should(exist).isSelected());
@@ -84,14 +112,13 @@ public class ElementsPage {
 
         assertFalse("'No' доступно для выбора", radioButtonNoStatus.should(exist).isEnabled());
         log.info("Проверяем состояние элемента.");
-        sleep(2000);
+        //        sleep(2000); // Можно включить для визуальной демонстации выполенения теста.
         return this;
     }
 
-    @Step("Кликаем на вкладку 'Button',кликаем на каждую кнопку и проверяем результат.")
-    public ElementsPage openPageClickElementButtons() {
-        buttonTab.shouldBe(visible).click();
-        log.info("Переши во вкладку.");
+    @Step("Кликаем на вкладку 'Buttons',кликаем на каждую кнопку и проверяем результат.")
+    public ElementsPage doExerciseButtons() {
+        openTabButtons();
 
         doubleClickBtn.shouldBe(visible, Duration.ofSeconds(1)).doubleClick();
         log.info("Кликаем дважды на кнопку.");
@@ -108,15 +135,13 @@ public class ElementsPage {
         log.info("Кликаем на кнопку.");
         assertEquals("Нажатие на кнопку 'Click Me' не выполнено", "You have done a dynamic click", textRelatedCBtn.getText());
         log.info("Проверяем появление текста после клика.");
-        sleep(2000);
+        //        sleep(2000); // Можно включить для визуальной демонстации выполенения теста.
         return this;
     }
 
     @Step("Кликаем на вкладку 'Dynamic Properties',проверяем состояние кнопок.")
-    public void openPageClickElementDynamic() {
-        dynamicPropertiesTab.shouldBe(visible).click();
-        log.info("Переши во вкладку.");
-
+    public void doExerciseDynamicProperties() {
+        openTabDynamicProperties();
         assertEquals("Кнопка доступна", "true", delayBtn.shouldBe(visible).getAttribute("disabled"));
         log.info("Проверяем наличие атрибута до прошествия 5 секунд.");
         sleep(5000);
@@ -132,6 +157,6 @@ public class ElementsPage {
 
         assertTrue("Кнопка не появилась", invisibleBtn.shouldBe(visible).exists());
         log.info("Проверяем что кнопка появилась в DOM");
-        sleep(2000);
+        //        sleep(2000); // Можно включить для визуальной демонстации выполенения теста.
     }
 }

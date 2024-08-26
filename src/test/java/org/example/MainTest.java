@@ -1,20 +1,18 @@
 package org.example;
 
-import org.example.ElementsPage;
-import org.example.MainPage;
 import org.junit.Before;
 import org.junit.Test;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class MainTest {
-    String Url = "https://demoqa.com";
+    String url = "https://demoqa.com/";
     String testName = "Admin";
     String testEmail = "admin@example.com";
 
     @Before
     public void openPage() {
-        new MainPage().openMainPage(Url);
+        new MainPage().openMainPage(url);
         log.info("Переход на страницу осуществлен");
     }
 
@@ -22,17 +20,17 @@ public class MainTest {
     public void mainPage() {
         new MainPage()
                 .clickImg()
-                .openItemMenuElement();
+                .openPageElement();
     }
 
     @Test
     public void elementsPage() {
-        new MainPage().openItemMenuElement();
+        new MainPage().openPageElement();
 
         new ElementsPage()
-                .openPageClickTextBox(testName, testEmail)
-                .openPageClickElementRadioButton()
-                .openPageClickElementButtons()
-                .openPageClickElementDynamic();
+                .fillingFormTextBox(testName, testEmail)
+                .doExerciseRadioButton()
+                .doExerciseButtons()
+                .doExerciseDynamicProperties();
     }
 }
