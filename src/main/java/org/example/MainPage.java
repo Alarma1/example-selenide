@@ -19,7 +19,7 @@ public class MainPage {
     SelenideElement blockWithImage = $x("//a[@target='_blank']/ancestor::div[@class='home-banner']");
     SelenideElement pageRegistation = $x("//img[@alt='Certified Guy']/../following-sibling::div/child::div[contains(text(),'Selenium')]");
     SelenideElement pageElements = $x("//h5[text()='Elements']/ancestor::div[contains(@class, 'mt-4')]");
-    SelenideElement tabElements = $x("//div[text()='Elements']");
+    SelenideElement itemForCheck = $x("//div[@class='left-pannel']");
 
     @Step("Открываем главную страницу")
     public MainPage openMainPage(String url) {
@@ -52,9 +52,9 @@ public class MainPage {
     }
 
     @Step("Переходим во вкладку 'Elements'")
-    public MainPage openPageElement() {
+    public MainPage openPageElements() {
         pageElements.shouldBe(visible).click();
-        tabElements.shouldBe(visible);
+        itemForCheck.shouldBe(visible);
         log.info("Кликнули на блок для перехода на страницу 'Elements'.");
 
         //        sleep(2000); // Можно включить для визуальной демонстации выполенения теста.

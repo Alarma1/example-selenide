@@ -20,13 +20,12 @@ public class MainTest {
     public void mainPage() {
         new MainPage()
                 .clickImg()
-                .openPageElement();
+                .openPageElements();
     }
 
     @Test
     public void elementsPage() {
-        new MainPage().openPageElement();
-
+        new MainPage().openPageElements();
         new ElementsPage()
                 .fillingFormTextBox(testName, testEmail)
                 .doExerciseRadioButton()
