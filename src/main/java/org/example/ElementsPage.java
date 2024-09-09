@@ -74,7 +74,7 @@ public class ElementsPage {
     }
 
     @Step("Кликаем на вкладку 'Text Box',заполняем форму 'Text Box' и жмем кнопу подтверждения")
-    public ElementsPage fillingFormTextBox(String name, String email) {
+    public void fillingFormTextBox(String name, String email) {
         openTabTextBox();
         nameField.shouldBe(visible).sendKeys(name);
         emailField.shouldBe(visible).sendKeys(email);
@@ -85,17 +85,16 @@ public class ElementsPage {
         submitBtn.shouldBe(visible).scrollTo().click();
         log.info("Нажали кнопку подтверждения.");
 
-        assertEquals("Введенное значение имени отличается", "Name:" + name, nameFieldResult.shouldBe(visible).getText());
-        assertEquals("Введенное значение почты отличается", "Email:" + email, emailFieldResult.shouldBe(visible).getText());
-        assertEquals("Введенное значение адреса прописки отличается", "Current Address :" + name + name, currentAddressResult.shouldBe(visible).getText());
-        assertEquals("Введенное значение адреса проживания отличается", "Permananet Address :" + email, permanentAddressResult.shouldBe(visible).getText());
+        assertEquals("Введенное значение имени отличается", String.format("Name:%s", name), nameFieldResult.shouldBe(visible).getText());
+        assertEquals("Введенное значение почты отличается", String.format("Email:%s", email), emailFieldResult.shouldBe(visible).getText());
+        assertEquals("Введенное значение адреса прописки отличается", String.format("Current Address : %s %s", name, name), currentAddressResult.shouldBe(visible).getText());
+        assertEquals("Введенное значение адреса проживания отличается", String.format("Permananet Address :%s", email), permanentAddressResult.shouldBe(visible).getText());
         log.info("Проверили заполненные данные.");
         //        sleep(2000); // Можно включить для визуальной демонстации выполенения теста.
-        return this;
     }
 
     @Step("Кликаем на вкладку 'Radio Button',переключаем и проверяем результат 'Radio Button'")
-    public ElementsPage doExerciseRadioButton() {
+    public void doExerciseRadioButton() {
         openTabRadioButton();
         sleep(200);
         radioButtonYesActive.shouldBe(visible).click();
@@ -113,11 +112,10 @@ public class ElementsPage {
         assertFalse("'No' доступно для выбора", radioButtonNoStatus.should(exist).isEnabled());
         log.info("Проверяем состояние элемента.");
         //        sleep(2000); // Можно включить для визуальной демонстации выполенения теста.
-        return this;
     }
 
     @Step("Кликаем на вкладку 'Buttons',кликаем на каждую кнопку и проверяем результат.")
-    public ElementsPage doExerciseButtons() {
+    public void doExerciseButtons() {
         openTabButtons();
 
         doubleClickBtn.shouldBe(visible, Duration.ofSeconds(1)).doubleClick();
@@ -136,7 +134,6 @@ public class ElementsPage {
         assertEquals("Нажатие на кнопку 'Click Me' не выполнено", "You have done a dynamic click", textRelatedCBtn.getText());
         log.info("Проверяем появление текста после клика.");
         //        sleep(2000); // Можно включить для визуальной демонстации выполенения теста.
-        return this;
     }
 
     @Step("Кликаем на вкладку 'Dynamic Properties',проверяем состояние кнопок.")

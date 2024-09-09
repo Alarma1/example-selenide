@@ -11,24 +11,35 @@ import java.time.Duration;
 
 @Slf4j
 public class MainSeleniumTest {
+    MainSeleniumPage mainSeleniumPage;
+    ElementsPageSelenium elementsPageSelenium;
+    FormsPage formsPage;
     WebDriver driver = new ChromeDriver();
     String url = "https://demoqa.com/";
 
     public MainSeleniumTest() {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(4));
+        mainSeleniumPage = new MainSeleniumPage(driver);
+        elementsPageSelenium = new ElementsPageSelenium(driver);
+        formsPage = new FormsPage(driver);
     }
 
     @Before
     public void openPage() {
-        new MainSeleniumPage(driver)
-                .openPage(url)
-                .openPageForms();
+        mainSeleniumPage.openPage(url);
     }
 
     @Test
-    public void formsPage() {
-        new FormsPage(driver).fillingFormRegistrationForm();
+    public void openPageElements() {
+        mainSeleniumPage.openPageElementsSelenium();
+        elementsPageSelenium.fillingFormWebTables();
     }
+
+//    @Test
+//    public void openPageForms() {
+//        mainSeleniumPage.openPageForms();
+//        formsPage.studentRegistrationForm();
+//    }
 
     @After
     public void quitDriver() {

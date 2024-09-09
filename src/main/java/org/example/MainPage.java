@@ -22,15 +22,14 @@ public class MainPage {
     SelenideElement itemForCheck = $x("//div[@class='left-pannel']");
 
     @Step("Открываем главную страницу")
-    public MainPage openMainPage(String url) {
+    public void openMainPage(String url) {
         open(url);
         webdriver().shouldHave(url(url));
         getWebDriver().manage().window().maximize();
-        return this;
     }
 
     @Step("Кликаем на блок с картинкой,возвращаемся на главную страницу")
-    public MainPage clickImg() {
+    public void clickImg() {
         blockWithImage.shouldBe(visible).click();
         log.info("Кликнули на блок");
         String mainWindow = getWebDriver().getWindowHandle();
@@ -48,16 +47,14 @@ public class MainPage {
         switchTo().window(mainWindow);
         log.info("Возвращаемся на главную страницу");
         //        sleep(2000); // Можно включить для визуальной демонстации выполенения теста
-        return this;
     }
 
     @Step("Переходим во вкладку 'Elements'")
-    public MainPage openPageElements() {
+    public void openPageElements() {
         pageElements.shouldBe(visible).click();
         itemForCheck.shouldBe(visible);
         log.info("Кликнули на блок для перехода на страницу 'Elements'.");
 
         //        sleep(2000); // Можно включить для визуальной демонстации выполенения теста.
-        return this;
     }
 }

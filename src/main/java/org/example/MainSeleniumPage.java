@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 public class MainSeleniumPage {
     WebDriver driver;
     String pageForms = "//h5[text()='Forms']/ancestor::div[contains(@class, 'mt-4')]";
+    String pageElements = "//h5[text()='Elements']/ancestor::div[contains(@class, 'mt-4')]";
     String itemForCheck = "//div[@class='left-pannel']";
 
 
@@ -18,10 +19,16 @@ public class MainSeleniumPage {
     }
 
     @Step("Открываем главную страницу")
-    public MainSeleniumPage openPage(String url) {
+    public void openPage(String url) {
         driver.get(url);
         driver.manage().window().fullscreen();
-        return this;
+    }
+
+    @Step("Переходим во вкладку 'Elements'")
+    public void openPageElementsSelenium() {
+        driver.findElement(By.xpath(pageElements)).click();
+        driver.findElement(By.xpath(itemForCheck));
+        log.info("Кликнули на блок для перехода на страницу 'Elements'.");
     }
 
     @Step("Переходим во вкладку 'Forms'")

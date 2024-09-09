@@ -58,20 +58,8 @@ public class FormsPage {
         log.info("Перешли во вкладку");
     }
 
-    @Step("Заполняем и отправляем форму")
-    public void fillingFormRegistrationForm() {
-        String studentName = "//td[text()='Student Name']/following-sibling::td";
-        String studentEmail = "//td[text()='Student Email']/following-sibling::td";
-        String Gender = "//td[text()='Gender']/following-sibling::td";
-        String Mobile = "//td[text()='Mobile']/following-sibling::td";
-        String dateOfBirth = "//td[text()='Date of Birth']/following-sibling::td";
-        String Subjects = "//td[text()='Subjects']/following-sibling::td";
-        String Hobbies = "//td[text()='Hobbies']/following-sibling::td";
-        String Picture = "//td[text()='Picture']/following-sibling::td";
-        String Address = "//td[text()='Address']/following-sibling::td";
-        String stateAndCity = "//td[text()='State and City']/following-sibling::td";
-        String closeBtn = "//button[text()='Close']";
-        openTabPracticeForm();
+    @Step("Заполняем форму 'Student Registration'")
+    private void filingForm() {
         driver.findElement(By.xpath(firstNameInput)).sendKeys(firstName);
         log.info("Заполнили поле 'Name'");
         driver.findElement(By.xpath(lastNameInput)).sendKeys(lastName);
@@ -122,10 +110,24 @@ public class FormsPage {
         log.info("Выбираем City 'Lucknow'");
         driver.findElement(By.xpath(submitBtn)).click();
         log.info("Жмем на кнопку 'Submit'");
+    }
 
+    @Step("Проверяем результат заполения формы")
+    private void checkResultFilingForm() {
+        String studentName = "//td[text()='Student Name']/following-sibling::td";
+        String studentEmail = "//td[text()='Student Email']/following-sibling::td";
+        String Gender = "//td[text()='Gender']/following-sibling::td";
+        String Mobile = "//td[text()='Mobile']/following-sibling::td";
+        String dateOfBirth = "//td[text()='Date of Birth']/following-sibling::td";
+        String Subjects = "//td[text()='Subjects']/following-sibling::td";
+        String Hobbies = "//td[text()='Hobbies']/following-sibling::td";
+        String Picture = "//td[text()='Picture']/following-sibling::td";
+        String Address = "//td[text()='Address']/following-sibling::td";
+        String stateAndCity = "//td[text()='State and City']/following-sibling::td";
+        String closeBtn = "//button[text()='Close']";
         driver.findElement(By.xpath(modalTable));
         log.info("Проверяем появилось ли модальное окно");
-        Assert.assertEquals("Не совпадает Name или Last Name", firstName + " " + lastName, driver.findElement(By.xpath(studentName)).getText());
+        Assert.assertEquals("Не совпадает Name или Last Name", String.format("%s %s", firstName, lastName), driver.findElement(By.xpath(studentName)).getText());
         Assert.assertEquals("Не совпадает Email", userEmail, driver.findElement(By.xpath(studentEmail)).getText());
         Assert.assertEquals("Не совпадает Gender", userGender, driver.findElement(By.xpath(Gender)).getText());
         Assert.assertEquals("Не совпадает Phone", userPhone, driver.findElement(By.xpath(Mobile)).getText());
@@ -138,4 +140,12 @@ public class FormsPage {
         driver.findElement(By.xpath(closeBtn)).click();
         log.info("Закрываем модальное окно");
     }
+
+    @Step("Заполняем и отправляем форму")
+    public void studentRegistrationForm() {
+        openTabPracticeForm();
+        filingForm();
+        checkResultFilingForm();
+    }
+
 }
