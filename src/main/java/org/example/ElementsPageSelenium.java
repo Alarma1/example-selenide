@@ -193,7 +193,5 @@ public class ElementsPageSelenium {
         log.info("Жмем 'Enter' для перехода на страницу выбранную в прошлом шаге");
         Assert.assertEquals("Не произошел переход на страницу '3'", "3", driver.findElement(By.xpath(inputPage)).getAttribute("value"));
         ClearInput.ClearField(driver, inputPage);
-        driver.findElement(By.xpath(previousBtn)).click();
-        driver.findElement(By.xpath(previousBtn)).click();
     }
 }
