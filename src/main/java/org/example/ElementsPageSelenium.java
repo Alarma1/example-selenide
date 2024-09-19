@@ -11,6 +11,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -80,69 +81,109 @@ public class ElementsPageSelenium {
 
     @Step("Очищаем поля для изменения данных о студеньте")
     private void clearForm() {
-        ClearInput.ClearField(driver, firstNameModal);
-        ClearInput.ClearField(driver, lastNameModal);
-        ClearInput.ClearField(driver, userEmailModal);
-        ClearInput.ClearField(driver, ageModal);
-        ClearInput.ClearField(driver, salaryModal);
-        ClearInput.ClearField(driver, departmentModal);
+        ClearInput.clearField(driver, firstNameModal);
+        ClearInput.clearField(driver, lastNameModal);
+        ClearInput.clearField(driver, userEmailModal);
+        ClearInput.clearField(driver, ageModal);
+        ClearInput.clearField(driver, salaryModal);
+        ClearInput.clearField(driver, departmentModal);
     }
 
     @Step("Тестируем форму 'Web Tables'")
     public void fillingFormWebTables() {
         String userBeforeDeletion;
         List<WebElement> rowsColumn;
-        int countLine;
+        LinkedList<String> messagesError = new LinkedList<String>();
+        boolean testNotPassed = false;
+        Integer countLine;
         String countPage;
-
         openPageElements();
 
-        ClearInput.ClearField(driver, inputSearch);
+        ClearInput.clearField(driver, inputSearch);
         driver.findElement(By.xpath(inputSearch)).sendKeys(firstName);
         log.info("Производим поиск по имени работника");
-        Assert.assertEquals("Работник по имени не найден", firstName, driver.findElement(By.xpath("//div[@role='rowgroup']//div//div")).getText());
-        ClearInput.ClearField(driver, inputSearch);
+        if (!firstName.equals(driver.findElement(By.xpath("//div[@role='rowgroup']//div//div")).getText())) {
+            testNotPassed = true;
+            messagesError.add("Работник по имени не найден");
+        }
+        ClearInput.clearField(driver, inputSearch);
 
         rowsColumn = driver.findElements(By.xpath(cellFirstName));
         driver.findElement(By.xpath(columnFirstName)).click();
-        Assert.assertTrue("Столбец 'First Name' не отсортирован 'А - Я'", MethodsForStrings.sortList(driver, rowsColumn, cellFirstName, false));
+        if (!MethodsForStrings.sortList(driver, rowsColumn, cellFirstName, false)) {
+            testNotPassed = true;
+            messagesError.add("Столбец 'First Name' не отсортирован 'А - Я'");
+        }
         driver.findElement(By.xpath(columnFirstName)).click();
-        Assert.assertTrue("Столбец 'First Name' не отсортирован 'Я - А'", MethodsForStrings.sortList(driver, rowsColumn, cellFirstName, true));
+        if (!MethodsForStrings.sortList(driver, rowsColumn, cellFirstName, true)) {
+            testNotPassed = true;
+            messagesError.add("Столбец 'First Name' не отсортирован 'Я - А'");
+        }
         log.info("Сортируем столбец 'First Name'");
 
         rowsColumn = driver.findElements(By.xpath(cellLastName));
         driver.findElement(By.xpath(columnLastName)).click();
-        Assert.assertTrue("Столбец 'Last Name' не отсортирован 'А - Я'", MethodsForStrings.sortList(driver, rowsColumn, cellLastName, false));
+        if (!MethodsForStrings.sortList(driver, rowsColumn, cellLastName, false)) {
+            testNotPassed = true;
+            messagesError.add("Столбец 'Last Name' не отсортирован 'А - Я'");
+        }
         driver.findElement(By.xpath(columnLastName)).click();
-        Assert.assertTrue("Столбец 'Last Name' не отсортирован 'Я - А'", MethodsForStrings.sortList(driver, rowsColumn, cellLastName, true));
+        if (!MethodsForStrings.sortList(driver, rowsColumn, cellLastName, true)) {
+            testNotPassed = true;
+            messagesError.add("Столбец 'Last Name' не отсортирован 'Я - А'");
+        }
         log.info("Сортируем столбец 'Last Name'");
 
         rowsColumn = driver.findElements(By.xpath(cellAge));
         driver.findElement(By.xpath(columnAge)).click();
-        Assert.assertTrue("Столбец 'Age' не отсортирован 'А - Я'", MethodsForStrings.sortList(driver, rowsColumn, cellAge, false));
+        if (!MethodsForStrings.sortList(driver, rowsColumn, cellAge, false)) {
+            testNotPassed = true;
+            messagesError.add("Столбец 'Age' не отсортирован 'А - Я'");
+        }
         driver.findElement(By.xpath(columnAge)).click();
-        Assert.assertTrue("Столбец 'Age' не отсортирован 'Я - А'", MethodsForStrings.sortList(driver, rowsColumn, cellAge, true));
+        if (!MethodsForStrings.sortList(driver, rowsColumn, cellAge, true)) {
+            testNotPassed = true;
+            messagesError.add("Столбец 'Age' не отсортирован 'Я - А'");
+        }
         log.info("Сортируем столбец 'Age'");
 
         rowsColumn = driver.findElements(By.xpath(cellEmail));
         driver.findElement(By.xpath(columnEmail)).click();
-        Assert.assertTrue("Столбец 'Email' не отсортирован 'А - Я'", MethodsForStrings.sortList(driver, rowsColumn, cellEmail, false));
+        if (!MethodsForStrings.sortList(driver, rowsColumn, cellEmail, false)) {
+            testNotPassed = true;
+            messagesError.add("Столбец 'Email' не отсортирован 'А - Я'");
+        }
         driver.findElement(By.xpath(columnEmail)).click();
-        Assert.assertTrue("Столбец 'Email' не отсортирован 'Я - А'", MethodsForStrings.sortList(driver, rowsColumn, cellEmail, true));
+        if (!MethodsForStrings.sortList(driver, rowsColumn, cellEmail, true)) {
+            testNotPassed = true;
+            messagesError.add("Столбец 'Email' не отсортирован 'Я - А'");
+        }
         log.info("Сортируем столбец 'Email'");
 
         rowsColumn = driver.findElements(By.xpath(cellSalary));
         driver.findElement(By.xpath(columnSalary)).click();
-        Assert.assertTrue("Столбец 'Salary' не отсортирован 'А - Я'", MethodsForStrings.sortList(driver, rowsColumn, cellSalary, false));
+        if (!MethodsForStrings.sortList(driver, rowsColumn, cellSalary, false)) {
+            testNotPassed = true;
+            messagesError.add("Столбец 'Salary' не отсортирован 'А - Я'");
+        }
         driver.findElement(By.xpath(columnSalary)).click();
-        Assert.assertTrue("Столбец 'Salary' не отсортирован 'Я - А'", MethodsForStrings.sortList(driver, rowsColumn, cellSalary, true));
+        if (!MethodsForStrings.sortList(driver, rowsColumn, cellSalary, true)) {
+            testNotPassed = true;
+            messagesError.add("Столбец 'Salary' не отсортирован 'Я - А'");
+        }
         log.info("Сортируем столбец 'Salary'");
 
         rowsColumn = driver.findElements(By.xpath(cellDepartment));
         driver.findElement(By.xpath(columnDepartment)).click();
-        Assert.assertTrue("Столбец 'Department' не отсортирован 'А - Я'", MethodsForStrings.sortList(driver, rowsColumn, cellDepartment, false));
+        if (!MethodsForStrings.sortList(driver, rowsColumn, cellDepartment, false)) {
+            testNotPassed = true;
+            messagesError.add("Столбец 'Department' не отсортирован 'А - Я'");
+        }
         driver.findElement(By.xpath(columnDepartment)).click();
-        Assert.assertTrue("Столбец 'Department' не отсортирован 'Я - А'", MethodsForStrings.sortList(driver, rowsColumn, cellDepartment, true));
+        if (!MethodsForStrings.sortList(driver, rowsColumn, cellDepartment, true)) {
+            testNotPassed = true;
+            messagesError.add("Столбец 'Department' не отсортирован 'Я - А'");
+        }
         log.info("Сортируем столбец 'Department'");
 
         driver.findElement(By.xpath(editBtn)).click();
@@ -155,13 +196,19 @@ public class ElementsPageSelenium {
 
         driver.findElement(By.xpath(deleteBtn)).click();
         log.info("Удаляем работника из списка");
-        Assert.assertNotEquals("Пользователь не был удален", userBeforeDeletion, driver.findElement(By.xpath(userMailFromTable)).getText());
+        if (userBeforeDeletion.equals(driver.findElement(By.xpath(userMailFromTable)).getText())) {
+            testNotPassed = true;
+            messagesError.add("Пользователь не был удален");
+        }
 
-        ClearInput.ClearField(driver, inputSearch);
+        ClearInput.clearField(driver, inputSearch);
         driver.findElement(By.xpath(inputSearch)).sendKeys(age);
         log.info("Производим поиск работника по возрасту");
-        Assert.assertEquals("Работник по возразсту не найден", age, driver.findElement(By.xpath("//div[@role='rowgroup']//div//div[3]")).getText());
-        ClearInput.ClearField(driver, inputSearch);
+        if (!age.equals(driver.findElement(By.xpath("//div[@role='rowgroup']//div//div[3]")).getText())) {
+            testNotPassed = true;
+            messagesError.add("Работник по возразсту не найден");
+        }
+        ClearInput.clearField(driver, inputSearch);
 
         for (int i = 0; i < 10; i++) {
             driver.findElement(By.xpath(addBtn)).click();
@@ -175,23 +222,35 @@ public class ElementsPageSelenium {
         log.info("Выбираем поле выбора количества строк в таблице");
         driver.findElement(By.xpath(optionCountPage)).click();
         log.info("Выбираем количество строк '5'");
-        Assert.assertNotEquals("Колличество столбцов не изменилось", countLine, MethodsForStrings.lineCount(driver, "//div[@role='rowgroup']//div[@role='row']"));
-
+        if (countLine.equals(MethodsForStrings.lineCount(driver, "//div[@role='rowgroup']//div[@role='row']"))) {
+            testNotPassed = true;
+            messagesError.add("Количество столбцов не изменилось");
+        }
         countPage = driver.findElement(By.xpath(inputPage)).getAttribute("value");
         driver.findElement(By.xpath(nextBtn)).click();
         log.info("Жмем на кнопку 'Next'");
-        Assert.assertNotEquals("Страница не перключилась на следующую", countPage, driver.findElement(By.xpath(inputPage)).getAttribute("value"));
+        if (countPage.equals(driver.findElement(By.xpath(inputPage)).getAttribute("value"))) {
+            testNotPassed = true;
+            messagesError.add("Страница не перключилась на следующую");
+        }
 
         driver.findElement(By.xpath(previousBtn)).click();
         log.info("Жмем на кнопку  'Previous'");
-        Assert.assertEquals("Страница не перключилась на предыдущую", countPage, driver.findElement(By.xpath(inputPage)).getAttribute("value"));
+        if (!countPage.equals(driver.findElement(By.xpath(inputPage)).getAttribute("value"))) {
+            testNotPassed = true;
+            messagesError.add("Страница не перключилась на предыдущую");
+        }
 
-        ClearInput.ClearField(driver, inputPage);
+        ClearInput.clearField(driver, inputPage);
         driver.findElement(By.xpath(inputPage)).sendKeys("3");
         log.info("Вводим номер страницы");
         driver.findElement(By.xpath(inputPage)).sendKeys(Keys.ENTER);
         log.info("Жмем 'Enter' для перехода на страницу выбранную в прошлом шаге");
-        Assert.assertEquals("Не произошел переход на страницу '3'", "3", driver.findElement(By.xpath(inputPage)).getAttribute("value"));
-        ClearInput.ClearField(driver, inputPage);
+        if (!"3".equals(driver.findElement(By.xpath(inputPage)).getAttribute("value"))) {
+            testNotPassed = true;
+            messagesError.add("Не произошел переход на страницу '3'");
+        }
+        ClearInput.clearField(driver, inputPage);
+        Assert.assertFalse(String.format("Не прошли проверку:%s", messagesError), testNotPassed);
     }
 }

@@ -35,11 +35,11 @@ public class MainSeleniumTest {
         elementsPageSelenium.fillingFormWebTables();
     }
 
-//    @Test
-//    public void openPageForms() {
-//        mainSeleniumPage.openPageForms();
-//        formsPage.studentRegistrationForm();
-//    }
+    @Test
+    public void openPageForms() {
+        mainSeleniumPage.openPageForms();
+        formsPage.studentRegistrationForm();
+    }
 
     @After
     public void quitDriver() {

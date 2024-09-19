@@ -5,14 +5,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 public abstract class MethodsForStrings {
     public static int lineCount(WebDriver driver, String xpath) {
-        List<WebElement> list = driver.findElements(By.xpath(xpath));
-        return list.size();
+        return driver.findElements(By.xpath(xpath)).size();
     }
 
     public static boolean sortList(WebDriver driver, List<WebElement> origin, String locator, boolean reverse) {
@@ -20,15 +18,15 @@ public abstract class MethodsForStrings {
         List<String> textListOrigin = new ArrayList<>();
         List<String> textListChanged = new ArrayList<>();
 
-        for (WebElement list : origin) {
-            if (!list.getText().isBlank()) {
-                textListOrigin.add(list.getText());
+        for (WebElement el : origin) {
+            if (!el.getText().isBlank()) {
+                textListOrigin.add(el.getText());
             }
         }
 
-        for (WebElement list : countLines) {
-            if (!list.getText().isBlank()) {
-                textListChanged.add(list.getText());
+        for (WebElement el : countLines) {
+            if (!el.getText().isBlank()) {
+                textListChanged.add(el.getText());
             }
         }
 
